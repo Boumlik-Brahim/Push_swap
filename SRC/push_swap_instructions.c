@@ -13,28 +13,31 @@
 #include "../push_swap.h"
 
 /*--------------------------------------instructions------------------------------------------*/
+// void ft_sa(stack_node *sa)
+// {
+//     stack_node *tmp;
+
+//     if (ft_stacksize(sa) <= 1)
+//         return ;
+//     tmp  = ft_peek(sa);
+// }
+
 void ft_sa(stack_node **sa)
 {
-    stack_node *tmp;
-
-    tmp  = ft_peek(*sa);
+    if (ft_stacksize(*sa) <= 1)
+        return ;
     if((*sa)->prev == NULL)
-    {
-        ft_add_after((*sa)->next,tmp->data);
-        ft_pop(sa,*sa);
-    }
+        ft_swap(&(*sa)->data,&(*sa)->next->data);
+    ft_putstr_fd("sa\n", 1);
 }
 
 void ft_sb(stack_node **sb)
 {
-    stack_node *tmp;
-
-    tmp  = ft_peek(*sb);
+    if (ft_stacksize(*sb) <= 1)
+        return ;
     if((*sb)->prev == NULL)
-    {
-        ft_add_after((*sb)->next,tmp->data);
-        ft_pop(sb,*sb);
-    }
+        ft_swap(&(*sb)->data,&(*sb)->next->data);
+    ft_putstr_fd("sb\n", 1);
 }
 
 void	ft_ss(stack_node **sa, stack_node **sb)
@@ -45,26 +48,36 @@ void	ft_ss(stack_node **sa, stack_node **sb)
 
 void ft_ra(stack_node **ra)
 {
+    if ((*ra) == NULL || ft_stacksize(*ra) <= 1)
+		return ;
     stack_node *tmp;
-
-    tmp  = ft_peek(*ra);
-    if((*ra)->prev == NULL)
-    {
-        ft_add_end(ra,tmp->data);
-        ft_pop(ra,*ra);
+    tmp = (*ra);
+    while (tmp)
+    {   
+        if (tmp->prev == NULL)
+            ft_swap(&tmp->data,&tmp->next->data);
+        else if (tmp->next)
+            ft_swap(&tmp->data,&tmp->next->data);
+        tmp = tmp->next;
     }
+    ft_putstr_fd("ra\n", 1);
 }
 
 void ft_rb(stack_node **rb)
 {
+    if ((*rb) == NULL || ft_stacksize(*rb) <= 1)
+		return ;
     stack_node *tmp;
-
-    tmp  = ft_peek(*rb);
-    if((*rb)->prev == NULL)
-    {
-        ft_add_end(rb,tmp->data);
-        ft_pop(rb,*rb);
+    tmp = (*rb);
+    while (tmp)
+    {   
+        if (tmp->prev == NULL)
+            ft_swap(&tmp->data,&tmp->next->data);
+        else if (tmp->next)
+            ft_swap(&tmp->data,&tmp->next->data);
+        tmp = tmp->next;
     }
+    ft_putstr_fd("rb\n", 1);
 }
 
 void	ft_rr(stack_node **ra, stack_node **rb)
@@ -75,30 +88,42 @@ void	ft_rr(stack_node **ra, stack_node **rb)
 
 void ft_rra(stack_node **rra)
 {
-    stack_node *last;
     stack_node *tmp;
+    stack_node *current;
 
-    tmp  = ft_end(*rra);
-    last  = (*rra);
-    if((*rra)->prev == NULL)
-        ft_push(rra,tmp->data);
-    while (last->next != NULL)
-        last = last->next;
-    ft_pop(&last,last);
+    if ((*rra) == NULL || ft_stacksize(*rra) <= 1)
+		return ;
+    tmp = NULL;
+    current = ft_end(*rra);
+    while (current)
+    {
+        if (current->next == NULL)
+            ft_swap(&current->data,&current->prev->data);   
+        else if (current->prev)
+            ft_swap(&current->data,&current->prev->data);
+        current = current->prev;
+    }
+    ft_putstr_fd("rra\n", 1);
 }
 
 void ft_rrb(stack_node **rrb)
 {
-    stack_node *last;
     stack_node *tmp;
+    stack_node *current;
 
-    tmp  = ft_end(*rrb);
-    last  = (*rrb);
-    if((*rrb)->prev == NULL)
-        ft_push(rrb,tmp->data);
-    while (last->next != NULL)
-        last = last->next;
-    ft_pop(&last,last);
+    if ((*rrb) == NULL || ft_stacksize(*rrb) <= 1)
+		return ;
+    tmp = NULL;
+    current = ft_end(*rrb);
+    while (current)
+    {
+        if (current->next == NULL)
+            ft_swap(&current->data,&current->prev->data);   
+        else if (current->prev)
+            ft_swap(&current->data,&current->prev->data);
+        current = current->prev;
+    }
+    ft_putstr_fd("rrb\n", 1);
 }
 
 void	ft_rrr(stack_node **rra, stack_node **rrb)
@@ -111,15 +136,23 @@ void ft_pa(stack_node **pa,stack_node **pb)
 {
     stack_node *tmp;
 
+    if (ft_peek(*pb) == NULL)
+        return ;
     tmp  = ft_peek(*pb);
-    ft_push(pa,tmp->data);
+    tmp->next = (*pa);
+    tmp->prev = NULL;
+    (*pa) = tmp;
 }
 
 void ft_pb(stack_node **pa,stack_node **pb)
 {
     stack_node *tmp;
 
+    if (ft_peek(*pa) == NULL)
+        return ;
     tmp  = ft_peek(*pa);
-    ft_push(pb,tmp->data);
+    tmp->next = (*pb);
+    tmp->prev = NULL;
+    (*pb) = tmp;
 }
 /*--------------------------------------instructions------------------------------------------*/

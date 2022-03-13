@@ -45,6 +45,8 @@ void ft_add_after(struct stack_node *prv_node, int data);
 void ft_add_before(struct stack_node **head, struct stack_node *nxt_node, int data);
 void ft_add_end(struct stack_node **head, int data);
 void ft_pop(struct stack_node **head, struct stack_node *node);
+
+size_t ft_stacksize(stack_node *node);
 void ft_printlist(struct stack_node *node);
 stack_node *ft_peek(stack_node *head);
 stack_node *ft_end(stack_node *head);
@@ -54,6 +56,8 @@ void ft_index_lenght(stack_node *stack_a);
 stack_node *get_stack_node_by_index(stack_node *stack_node, int index);
 void ft_LIS(stack_node *stack_a);
 void ft_puch_b(stack_node **stack_a,stack_node **stack_b);
+
+void	ft_swap(int *a, int *b);
 
 void ft_sa(stack_node **sa);
 void ft_sb(stack_node **sb);

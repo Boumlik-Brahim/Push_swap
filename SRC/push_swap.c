@@ -91,21 +91,20 @@ void ft_LIS(stack_node *stack_a)
     tmp_node->chk = 1;
 }
 
-void ft_puch_b(stack_node **stack_a,stack_node **stack_b)
-{
-    stack_node *current;
+// void ft_puch_b(stack_node **stack_a,stack_node **stack_b)
+// {
+//     stack_node *current;
 
-    current = *stack_a;
-    while (current)
-    {
-        if (current->chk == 0)
-        {
-            (*stack_b)->next = current;
-            current->prev = (*stack_b);
-        }
-        current = current->next;
-    }
-}
+//     current = *stack_a;
+//     while (current)
+//     {
+//         if (current->chk == 0)
+//         {
+//             ft_push(stack_b,current->data);
+//         }
+//         current = current->next;
+//     }
+// }
 /*--------------------------------------LIS------------------------------------------*/
 
 /*--------------------------------------main------------------------------------------*/
@@ -115,21 +114,10 @@ int main(int ac, char **av)
     stack_node *stack_b;
 
     stack_a = NULL;
-    // stack_a->prev = NULL;
-    // stack_a->data = 0;
-    // stack_a->next = NULL;
-    
     stack_b = NULL;
-    // stack_b->prev = NULL;
-    // stack_b->data = 0;
-    // stack_b->next = NULL;
-
     if(ac >= 2)
     {
-        // int i;
         int a;
-
-        // i = 0;
         while(--ac)
         {
             if(av[ac][0] == '\0')
@@ -139,24 +127,19 @@ int main(int ac, char **av)
             stack_a->lenth = 1;
             stack_a->subsequence = -1;
             stack_a->index = ac - 1;
-            stack_a->chk = 0; 
+            stack_a->chk = 0;
+             
         }
-        // ft_sa(&stack_a);
-        // ft_ra(&stack_a);
-        // ft_rra(&stack_a);
-        // pa(&stack_a,&stack_b);
-        // pb(&stack_a,&stack_b);
         ft_index_lenght(stack_a);
         ft_LIS(stack_a);
-        ft_puch_b(&stack_a,&stack_b);
         ft_printlist(stack_a);
-        printf("\no                       o\n");
-        printf("\no----------a------------o\n");
-        printf("\no                       o\n");
-        ft_printlist(stack_b);
-        printf("\no                       o\n");
-        printf("\no----------b------------o\n");
-        printf("\no                       o\n");
+        // printf("\no                       o\n");
+        // printf("\no----------a------------o\n");
+        // printf("\no                       o\n");
+        // ft_printlist(stack_b);
+        // printf("\no                       o\n");
+        // printf("\no----------b------------o\n");
+        // printf("\no                       o\n");
     }
     else
         ft_handle_error("INVALID ARGUMENT");

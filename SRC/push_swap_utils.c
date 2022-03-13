@@ -110,7 +110,7 @@ stack_node *ft_peek(stack_node *head)
 
     first = (struct stack_node*)malloc(sizeof(struct stack_node));
     if(head == NULL)
-        printf("stack is empty");
+        return (NULL);
     if(head->prev == NULL)
     {
         first->prev = NULL;
@@ -126,11 +126,33 @@ stack_node *ft_end(stack_node *head)
 
     last = (struct stack_node*)malloc(sizeof(struct stack_node));
     if(head == NULL)
-        printf("stack is empty");
+        return (NULL);
     last = head;
     while (last->next != NULL)
         last = last->next;
     return(last);
+}
+
+size_t ft_stacksize(stack_node *node)
+{
+	size_t	i;
+
+	i = 0;
+	while (node != NULL)
+	{
+		node = node->next;
+		i++;
+	}
+	return (i);
+}
+
+void	ft_swap(int *a, int *b)
+{
+	int	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
 }
 
 void ft_printlist(struct stack_node *node)
