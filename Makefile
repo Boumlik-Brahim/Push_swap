@@ -9,8 +9,8 @@ LIBFT = Libft/libft.a
 
 all: $(NAME)
 
-$(PUSH_SWAP): SRC/push_swap.c SRC/push_swap_utils.c SRC/push_swap_instructions.c $(LIBFT)
-	$(CC) $(CFLAGS) SRC/push_swap.c SRC/push_swap_utils.c SRC/push_swap_instructions.c $(LIBFT) -o $(PUSH_SWAP)
+$(PUSH_SWAP): SRC/push_swap.c SRC/push_swap_utils.c SRC/push_swap_instructions.c SRC/push_swap_errors.c $(LIBFT)
+	$(CC) $(CFLAGS) SRC/push_swap.c SRC/push_swap_utils.c SRC/push_swap_instructions.c SRC/push_swap_errors.c $(LIBFT) -o $(PUSH_SWAP)
 
 $(LIBFT): $(shell find Libft/ -name "*.c" -type f)
 	$(MAKE) -C Libft 

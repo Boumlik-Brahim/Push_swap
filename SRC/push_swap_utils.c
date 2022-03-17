@@ -13,25 +13,124 @@
 #include "../push_swap.h"
 
 /*--------------------------------------utils------------------------------------------*/
-void ft_push(struct stack_node **head, int data)
+
+void    ft_init_node(stack_node *node, int data)
 {
-    struct stack_node *new_node;
+    node->data = data;
+    node->lenth = 1;
+    node->subsequence = -1;
+    node->index = 0;
+    node->chk = 0;
+    node->nmbr_of_instr = 0;
+}
 
-    new_node = (struct stack_node*)malloc(sizeof(struct stack_node));
-    if(!new_node)
-    {
-        free(new_node);
+void ft_push(t_stack *stack, int data)
+{
+    stack_node *new_node;
+
+    new_node = (stack_node *) malloc(sizeof(stack_node));
+    if (!new_node)
         return ;
+    if (stack->size == 0)
+    {
+        stack->head = new_node;
+        stack->tail = new_node;
+        stack->tail->next = NULL;
     }
-    new_node->data = data;
+    else
+    {
+        stack->head->prev = new_node;
+        new_node->next = stack->head;
+        stack->head = new_node;
+    }
+    ft_init_node(new_node,data);
+    stack->head->prev = NULL;
+    stack->size += 1;
+}
 
-    new_node->next = (*head);
-    new_node->prev = NULL;
+void ft_printlist(struct stack_node *node)
+{
+    struct stack_node *last;
+    while(node != NULL)
+    {
+        printf("%so-----------------------o\n" \
+            "| %s%p\t%s|\n" \
+            "o-----------------------o\n" \
+            "   %sprev: %p%s\n" \
+            "   %sdata: %d%s\n" \
+            "   %sIndex: %d%s\n" \
+            "   %sLenght: %d%s\n" \
+            "   %sSubsequence: %d%s\n" \
+            "   %sChk: %d%s\n" \
+            "   %sinst_nmbr: %d%s\n" \
+            "   %snext: %p%s\n" \
+            "o-----------------------o\n", \
+            BLU, \
+            CYN, node, BLU, \
+            YEL, node->prev, BLU, \
+            RED, node->data, BLU, \
+            RED, node->index, BLU, \
+            RED, node->lenth, BLU, \
+            RED, node->subsequence, BLU, \
+            RED, node->chk, BLU, \
+            RED, node->nmbr_of_instr, BLU, \
+            GRN,node->next, BLU);
+        if (node->next)
+            printf("\t\\/\t/\\\n\t||\t||\n\t\\/\t/\\\n");
+        last = node;
+        node = node->next;
+    }
+}
 
-    if ((*head) != NULL)
-        (*head)->prev = new_node;
+size_t ft_stacksize(stack_node *node)
+{
+	size_t	i;
 
-    (*head) = new_node;
+	i = 0;
+	while (node != NULL)
+	{
+		node = node->next;
+		i++;
+	}
+	return (i);
+}
+
+void	ft_swap(int *a, int *b)
+{
+	int	tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+stack_node *ft_peek(stack_node *head)
+{
+    stack_node *first;
+
+    first = (struct stack_node*)malloc(sizeof(struct stack_node));
+    if(head == NULL)
+        return (NULL);
+    if(head->prev == NULL)
+    {
+        first->prev = NULL;
+        first->data = head->data;
+        first->next = NULL;
+    }
+    return(first);
+}
+
+stack_node *ft_end(stack_node *head)
+{
+    stack_node *last;
+
+    last = (struct stack_node*)malloc(sizeof(struct stack_node));
+    if(head == NULL)
+        return (NULL);
+    last = head;
+    while (last->next != NULL)
+        last = last->next;
+    return(last);
 }
 
 void ft_add_after(struct stack_node *prv_node, int data)
@@ -93,7 +192,7 @@ void ft_add_end(struct stack_node **head, int data)
 void ft_pop(struct stack_node **head, struct stack_node *node)
 {
     if((*head) == NULL || node == NULL)
-        printf("stack is empty");
+        return ;
     if((*head) == node)
         (*head) = node->next;
     if(node->next != NULL)
@@ -102,89 +201,5 @@ void ft_pop(struct stack_node **head, struct stack_node *node)
         node->prev->next = node->next;
     free(node);
     return;
-}
-
-stack_node *ft_peek(stack_node *head)
-{
-    stack_node *first;
-
-    first = (struct stack_node*)malloc(sizeof(struct stack_node));
-    if(head == NULL)
-        return (NULL);
-    if(head->prev == NULL)
-    {
-        first->prev = NULL;
-        first->data = head->data;
-        first->next = NULL;
-    }
-    return(first);
-}
-
-stack_node *ft_end(stack_node *head)
-{
-    stack_node *last;
-
-    last = (struct stack_node*)malloc(sizeof(struct stack_node));
-    if(head == NULL)
-        return (NULL);
-    last = head;
-    while (last->next != NULL)
-        last = last->next;
-    return(last);
-}
-
-size_t ft_stacksize(stack_node *node)
-{
-	size_t	i;
-
-	i = 0;
-	while (node != NULL)
-	{
-		node = node->next;
-		i++;
-	}
-	return (i);
-}
-
-void	ft_swap(int *a, int *b)
-{
-	int	tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
-void ft_printlist(struct stack_node *node)
-{
-    struct stack_node *last;
-    while(node != NULL)
-    {
-        printf("%so-----------------------o\n" \
-            "| %s%p\t%s|\n" \
-            "o-----------------------o\n" \
-            "   %sprev: %p%s\n" \
-            "   %sdata: %d%s\n" \
-            "   %sIndex: %d%s\n" \
-            "   %sLenght: %d%s\n" \
-            "   %sSubsequence: %d%s\n" \
-            "   %sChk: %d%s\n" \
-            "   %snext: %p%s\n" \
-            "o-----------------------o\n", \
-            BLU, \
-            CYN, node, BLU, \
-            YEL, node->prev, BLU, \
-            RED, node->data, BLU, \
-            RED, node->index, BLU, \
-            RED, node->lenth, BLU, \
-            RED, node->subsequence, BLU, \
-            RED, node->chk, BLU, \
-            GRN,node->next, BLU);
-        if (node->next)
-            printf("\t\\/\t/\\\n\t||\t||\n\t\\/\t/\\\n");
-        // ft_putnbr_fd(node->data,1);
-        last = node;
-        node = node ->next;
-    }
 }
 /*--------------------------------------utils------------------------------------------*/

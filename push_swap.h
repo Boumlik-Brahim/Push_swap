@@ -35,40 +35,49 @@ typedef struct stack_node
     int lenth;
     int subsequence;
     int chk;
+    int nmbr_of_instr;
     struct stack_node *next;
 } stack_node;
 
+typedef struct s_stack {
+    stack_node  *head;
+    stack_node  *tail;
+    int         size;
+}   t_stack;
+
+void ft_sa(t_stack *sa);
+void ft_sb(t_stack *sb);
+void ft_ss(t_stack *sa, t_stack *sb);
+void ft_ra(t_stack *ra);
+void ft_rb(t_stack *rb);
+void ft_rr(t_stack *ra, t_stack *rb);
+void ft_rra(t_stack *rra);
+void ft_rrb(t_stack *rrb);
+void ft_rrr(t_stack *rra, t_stack *rrb);
+void ft_pa(t_stack *pa,t_stack *pb);
+void ft_pb(t_stack *pa,t_stack *pb);
+
 void	ft_handle_error(char *str);
 
-void ft_push(struct stack_node **head, int data);
+void ft_init_node(stack_node *node, int data);
+void ft_push(t_stack *stack, int data);
+void ft_printlist(struct stack_node *node);
+size_t ft_stacksize(stack_node *node);
+void	ft_swap(int *a, int *b);
+
+// void ft_index_lenght(stack_node *stack_a);
+// stack_node *get_stack_node_by_index(stack_node *stack_node, int index);
+// void ft_LIS(stack_node *stack_a);
+
+stack_node *ft_peek(stack_node *head);
+stack_node *ft_end(stack_node *head);
 void ft_add_after(struct stack_node *prv_node, int data);
 void ft_add_before(struct stack_node **head, struct stack_node *nxt_node, int data);
 void ft_add_end(struct stack_node **head, int data);
 void ft_pop(struct stack_node **head, struct stack_node *node);
 
-size_t ft_stacksize(stack_node *node);
-void ft_printlist(struct stack_node *node);
-stack_node *ft_peek(stack_node *head);
-stack_node *ft_end(stack_node *head);
 
 
-void ft_index_lenght(stack_node *stack_a);
-stack_node *get_stack_node_by_index(stack_node *stack_node, int index);
-void ft_LIS(stack_node *stack_a);
-void ft_puch_b(stack_node **stack_a,stack_node **stack_b);
 
-void	ft_swap(int *a, int *b);
-
-void ft_sa(stack_node **sa);
-void ft_sb(stack_node **sb);
-void ft_ss(stack_node **sa, stack_node **sb);
-void ft_ra(stack_node **ra);
-void ft_rb(stack_node **rb);
-void ft_rr(stack_node **ra, stack_node **rb);
-void ft_rra(stack_node **rra);
-void ft_rrb(stack_node **rrb);
-void ft_rrr(stack_node **rra, stack_node **rrb);
-void ft_pa(stack_node **pa,stack_node **pb);
-void ft_pb(stack_node **pa,stack_node **pb);
 
 #endif

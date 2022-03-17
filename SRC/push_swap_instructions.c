@@ -13,146 +13,179 @@
 #include "../push_swap.h"
 
 /*--------------------------------------instructions------------------------------------------*/
-// void ft_sa(stack_node *sa)
-// {
-//     stack_node *tmp;
-
-//     if (ft_stacksize(sa) <= 1)
-//         return ;
-//     tmp  = ft_peek(sa);
-// }
-
-void ft_sa(stack_node **sa)
+void ft_sa(t_stack *sa)
 {
-    if (ft_stacksize(*sa) <= 1)
+    stack_node *tmp;
+    stack_node *tmp2;
+    if (sa->size <= 1)
         return ;
-    if((*sa)->prev == NULL)
-        ft_swap(&(*sa)->data,&(*sa)->next->data);
+    if (sa->size > 2)
+	{
+        tmp = sa->head->next;
+        tmp2 = tmp->next;
+        tmp->next = sa->head;
+        sa->head->prev = tmp;
+        sa->head->next = tmp2;
+        tmp2->prev = sa->head;
+        sa->head = tmp;
+        sa->head->prev = NULL;
+	}
+	else if (sa->size == 2)
+	{
+		sa->tail = sa->head;
+		sa->head = sa->head->next;
+		sa->head->next = sa->tail;
+		sa->tail->prev = sa->head;
+		sa->tail->next = NULL;
+        sa->head->prev = NULL;
+	}
     ft_putstr_fd("sa\n", 1);
 }
 
-void ft_sb(stack_node **sb)
+void ft_sb(t_stack *sb)
 {
-    if (ft_stacksize(*sb) <= 1)
+    if (sb->size <= 1)
         return ;
-    if((*sb)->prev == NULL)
-        ft_swap(&(*sb)->data,&(*sb)->next->data);
+    stack_node *tmp;
+    stack_node *tmp2;
+    if (sb->size <= 1)
+        return ;
+    if (sb->size > 2)
+	{
+        tmp = sb->head->next;
+        tmp2 = tmp->next;
+        tmp->next = sb->head;
+        sb->head->prev = tmp;
+        sb->head->next = tmp2;
+        tmp2->prev = sb->head;
+        sb->head = tmp;
+        sb->head->prev = NULL;
+	}
+	else if (sb->size == 2)
+	{
+		sb->tail = sb->head;
+		sb->head = sb->head->next;
+		sb->head->next = sb->tail;
+		sb->tail->prev = sb->head;
+		sb->tail->next = NULL;
+        sb->head->prev = NULL;
+	}
     ft_putstr_fd("sb\n", 1);
 }
 
-void	ft_ss(stack_node **sa, stack_node **sb)
+void	ft_ss(t_stack *sa, t_stack *sb)
 {
 	ft_sa(sa);
 	ft_sb(sb);
 }
 
-void ft_ra(stack_node **ra)
+void ft_ra(t_stack *ra)
 {
-    if ((*ra) == NULL || ft_stacksize(*ra) <= 1)
-		return ;
-    stack_node *tmp;
-    tmp = (*ra);
-    while (tmp)
-    {   
-        if (tmp->prev == NULL)
-            ft_swap(&tmp->data,&tmp->next->data);
-        else if (tmp->next)
-            ft_swap(&tmp->data,&tmp->next->data);
-        tmp = tmp->next;
-    }
+    if (ra->size <= 1)
+        return ;
+    ra->tail->next = ra->head;
+    ra->head->prev = ra->tail;
+    ra->head = ra->head->next;
+    ra->tail = ra->tail->next;
+    ra->head->prev = NULL;
+    ra->tail->next = NULL;
     ft_putstr_fd("ra\n", 1);
 }
 
-void ft_rb(stack_node **rb)
+void ft_rb(t_stack *rb)
 {
-    if ((*rb) == NULL || ft_stacksize(*rb) <= 1)
-		return ;
-    stack_node *tmp;
-    tmp = (*rb);
-    while (tmp)
-    {   
-        if (tmp->prev == NULL)
-            ft_swap(&tmp->data,&tmp->next->data);
-        else if (tmp->next)
-            ft_swap(&tmp->data,&tmp->next->data);
-        tmp = tmp->next;
-    }
+    if (rb->size <= 1)
+        return ;
+    rb->tail->next = rb->head;
+    rb->head->prev = rb->tail;
+    rb->head = rb->head->next;
+    rb->tail = rb->tail->next;
+    rb->head->prev = NULL;
+    rb->tail->next = NULL;
     ft_putstr_fd("rb\n", 1);
 }
 
-void	ft_rr(stack_node **ra, stack_node **rb)
+void	ft_rr(t_stack *ra, t_stack *rb)
 {
 	ft_ra(ra);
 	ft_rb(rb);
 }
 
-void ft_rra(stack_node **rra)
+void ft_rra(t_stack *rra)
 {
     stack_node *tmp;
-    stack_node *current;
 
-    if ((*rra) == NULL || ft_stacksize(*rra) <= 1)
-		return ;
-    tmp = NULL;
-    current = ft_end(*rra);
-    while (current)
-    {
-        if (current->next == NULL)
-            ft_swap(&current->data,&current->prev->data);   
-        else if (current->prev)
-            ft_swap(&current->data,&current->prev->data);
-        current = current->prev;
-    }
+    if (rra->size <= 1)
+        return ;
+    tmp = rra->tail;
+    tmp->next = rra->head;
+    rra->head->prev = tmp;
+    rra->tail->prev->next = NULL;
+    rra->head = tmp;
+    rra->head->prev = NULL;
     ft_putstr_fd("rra\n", 1);
 }
 
-void ft_rrb(stack_node **rrb)
+void ft_rrb(t_stack *rrb)
 {
     stack_node *tmp;
-    stack_node *current;
 
-    if ((*rrb) == NULL || ft_stacksize(*rrb) <= 1)
-		return ;
-    tmp = NULL;
-    current = ft_end(*rrb);
-    while (current)
-    {
-        if (current->next == NULL)
-            ft_swap(&current->data,&current->prev->data);   
-        else if (current->prev)
-            ft_swap(&current->data,&current->prev->data);
-        current = current->prev;
-    }
+    if (rrb->size <= 1)
+        return ;
+    tmp = rrb->tail;
+    tmp->next = rrb->head;
+    rrb->head->prev = tmp;
+    rrb->tail->prev->next = NULL;
+    rrb->head = tmp;
+    rrb->head->prev = NULL;
     ft_putstr_fd("rrb\n", 1);
 }
 
-void	ft_rrr(stack_node **rra, stack_node **rrb)
+void	ft_rrr(t_stack *rra, t_stack *rrb)
 {
 	ft_rra(rra);
 	ft_rrb(rrb);
 }
 
-void ft_pa(stack_node **pa,stack_node **pb)
+void ft_pa(t_stack *pa,t_stack *pb)
 {
     stack_node *tmp;
+    stack_node *tmp2;
 
-    if (ft_peek(*pb) == NULL)
+    if (pb->head == NULL)
         return ;
-    tmp  = ft_peek(*pb);
-    tmp->next = (*pa);
-    tmp->prev = NULL;
-    (*pa) = tmp;
+    if (pb->size >= 1 && pa->size != 0)
+	{
+		tmp = pb->head;
+		tmp2 = pa->head;
+		pb->head = pb->head->next;
+		tmp->next = tmp2;
+		tmp2->prev = tmp;
+		pa->head = tmp;
+		pa->size++;
+		pb->size--;
+	}
+	else if (pa->size == 0)
+	{
+		tmp = pb->head;
+		pa->head = pb->head;
+		pb->head = tmp->next;
+		pa->head->data = tmp->data;
+		pa->head->next = NULL;
+		pa->tail = pa->head;
+		pa->size++;
+		pb->size--;
+	}
+    ft_putstr_fd("pa\n", 1);
 }
 
-void ft_pb(stack_node **pa,stack_node **pb)
+void ft_pb(t_stack *pa,t_stack *pb)
 {
-    stack_node *tmp;
-
-    if (ft_peek(*pa) == NULL)
+    // stack_node *tmp;
+    pb = NULL;
+    if (pa->head == NULL)
         return ;
-    tmp  = ft_peek(*pa);
-    tmp->next = (*pb);
-    tmp->prev = NULL;
-    (*pb) = tmp;
+    
+    ft_putstr_fd("pb\n", 1);
 }
 /*--------------------------------------instructions------------------------------------------*/
