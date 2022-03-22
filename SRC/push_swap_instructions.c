@@ -15,8 +15,8 @@
 /*--------------------------------------instructions------------------------------------------*/
 void ft_sa(t_stack *sa)
 {
-    stack_node *tmp;
-    stack_node *tmp2;
+    t_stack_node *tmp;
+    t_stack_node *tmp2;
     if (sa->size <= 1)
         return ;
     if (sa->size > 2)
@@ -44,10 +44,9 @@ void ft_sa(t_stack *sa)
 
 void ft_sb(t_stack *sb)
 {
-    if (sb->size <= 1)
-        return ;
-    stack_node *tmp;
-    stack_node *tmp2;
+    t_stack_node *tmp;
+    t_stack_node *tmp2;
+
     if (sb->size <= 1)
         return ;
     if (sb->size > 2)
@@ -113,31 +112,35 @@ void	ft_rr(t_stack *ra, t_stack *rb)
 
 void ft_rra(t_stack *rra)
 {
-    stack_node *tmp;
+    t_stack_node *tmp;
+    t_stack_node *tmp2;
 
     if (rra->size <= 1)
         return ;
-    tmp = rra->tail;
-    tmp->next = rra->head;
-    rra->head->prev = tmp;
-    rra->tail->prev->next = NULL;
-    rra->head = tmp;
-    rra->head->prev = NULL;
+    tmp = rra->head;
+    tmp2 = rra->tail;
+	rra->tail = rra->tail->prev;
+    tmp2->next = tmp;
+	tmp->prev = tmp2;
+	rra->head = tmp2;
+	rra->tail->next = NULL;
     ft_putstr_fd("rra\n", 1);
 }
 
 void ft_rrb(t_stack *rrb)
 {
-    stack_node *tmp;
+    t_stack_node *tmp;
+    t_stack_node *tmp2;
 
     if (rrb->size <= 1)
         return ;
-    tmp = rrb->tail;
-    tmp->next = rrb->head;
-    rrb->head->prev = tmp;
-    rrb->tail->prev->next = NULL;
-    rrb->head = tmp;
-    rrb->head->prev = NULL;
+    tmp = rrb->head;
+    tmp2 = rrb->tail;
+	rrb->tail = rrb->tail->prev;
+    tmp2->next = tmp;
+	tmp->prev = tmp2;
+	rrb->head = tmp2;
+	rrb->tail->next = NULL;
     ft_putstr_fd("rrb\n", 1);
 }
 
@@ -149,11 +152,9 @@ void	ft_rrr(t_stack *rra, t_stack *rrb)
 
 void ft_pa(t_stack *pa,t_stack *pb)
 {
-    stack_node *tmp;
-    stack_node *tmp2;
+    t_stack_node *tmp;
+    t_stack_node *tmp2;
 
-    if (pb->head == NULL)
-        return ;
     if (pb->size >= 1 && pa->size != 0)
 	{
 		tmp = pb->head;
@@ -181,11 +182,31 @@ void ft_pa(t_stack *pa,t_stack *pb)
 
 void ft_pb(t_stack *pa,t_stack *pb)
 {
-    // stack_node *tmp;
-    pb = NULL;
-    if (pa->head == NULL)
-        return ;
-    
+    t_stack_node *tmp;
+    t_stack_node *tmp2;
+
+    if (pa->size >= 1 && pb->size != 0)
+	{
+		tmp = pa->head;
+		tmp2 = pb->head;
+		pa->head = pa->head->next;
+		tmp->next = tmp2;
+		tmp2->prev = tmp;
+		pb->head = tmp;
+		pb->size++;
+		pa->size--;
+	}
+	else if (pb->size == 0)
+	{
+		tmp = pa->head;
+		pb->head = pa->head;
+		pa->head = tmp->next;
+		pb->head->data = tmp->data;
+		pb->head->next = NULL;
+		pb->tail = pb->head;
+		pb->size++;
+		pa->size--;
+	}
     ft_putstr_fd("pb\n", 1);
 }
 /*--------------------------------------instructions------------------------------------------*/
