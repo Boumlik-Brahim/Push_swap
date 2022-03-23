@@ -3,7 +3,6 @@ CFLAGS = -Wall -Werror -Wextra
 
 PUSH_SWAP = push_swap
 
-
 NAME = $(PUSH_SWAP)
 LIBFT = Libft/libft.a
 

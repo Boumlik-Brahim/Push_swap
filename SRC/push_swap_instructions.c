@@ -17,8 +17,6 @@ void ft_sa(t_stack *sa)
 {
     t_stack_node *tmp;
     t_stack_node *tmp2;
-    if (sa->size <= 1)
-        return ;
     if (sa->size > 2)
 	{
         tmp = sa->head->next;
@@ -47,8 +45,6 @@ void ft_sb(t_stack *sb)
     t_stack_node *tmp;
     t_stack_node *tmp2;
 
-    if (sb->size <= 1)
-        return ;
     if (sb->size > 2)
 	{
         tmp = sb->head->next;
@@ -163,6 +159,7 @@ void ft_pa(t_stack *pa,t_stack *pb)
 		tmp->next = tmp2;
 		tmp2->prev = tmp;
 		pa->head = tmp;
+		pa->head->prev = NULL;
 		pa->size++;
 		pb->size--;
 	}

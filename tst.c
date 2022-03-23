@@ -823,3 +823,439 @@ void ft_push_a(t_stack *stack_a,t_stack *stack_b)
 //     rra->head->prev = NULL;
 //     ft_putstr_fd("rra\n", 1);
 // }
+
+void	rra(t_infsa *infa)
+{
+	t_data	data;
+
+	if (infa->len > 1)
+	{
+		data.tmp = infa->head;
+		data.tmp2 = infa->tail;
+		infa->tail = infa->tail->prev;
+		data.tmp2->next = data.tmp;
+		data.tmp->prev = data.tmp2;
+		infa->head = data.tmp2;
+		infa->tail->next = NULL;
+	}
+	ft_printf("rra\n");
+}
+
+kanu f push_a:
+// ft_max_data_nbr_istr(stack_a);
+// ft_best_element_in_b(stack_a,stack_b);
+
+
+// if(tmp_node->tmp[0] > 0 && tmp_node->tmp[1] > 0)
+// {
+//     if (tmp_node->tmp[0] > tmp_node->tmp[1])
+//     {
+//         tmp_node->tmp[1] * ft_rr;
+//         tmp_node->tmp[1] = 0;
+//         tmp_node->tmp[0] = tmp_node->tmp[0] - tmp_node->tmp[1];
+//     }
+//     else if (tmp_node->tmp[0] < tmp_node->tmp[1])
+//     {
+//         tmp_node->tmp[0] * ft_rr;
+//         tmp_node->tmp[0] = 0;
+//         tmp_node->tmp[1] = tmp_node->tmp[1] - tmp_node->tmp[0];
+//     }
+//     else if (tmp_node->tmp[0] == tmp_node->tmp[1])
+//     {
+//     }
+// }
+// else if(tmp_node->tmp[0] < 0 && tmp_node->tmp[1] < 0)
+// {
+//     if (tmp_node->tmp[0] > tmp_node->tmp[1])
+//     {
+//         tmp_node->tmp[0] * ft_rrr;
+//         tmp_node->tmp[0] = 0;
+//         tmp_node->tmp[1] = tmp_node->tmp[1] - tmp_node->tmp[0];
+//     }
+//     else if (tmp_node->tmp[0] < tmp_node->tmp[1])
+//     {
+//         tmp_node->tmp[1] * ft_rrr;
+//         tmp_node->tmp[1] = 0;
+//         tmp_node->tmp[0] = tmp_node->tmp[0] - tmp_node->tmp[1];
+//     }
+//     else if (tmp_node->tmp[0] == tmp_node->tmp[1])
+//     {
+//     }
+// }
+
+void ft_push_a(t_stack *stack_a,t_stack *stack_b)
+{
+    t_best_mv best; 
+    t_stack_node *current_b;
+    current_b = stack_b->head;
+
+    ft_first_mv_sb(stack_a,stack_b, &best);
+    
+    if ((best.nmb_inst > 0 && best.nmb_inst_b > 0) || (best.nmb_inst < 0 && best.nmb_inst_b < 0))
+    {
+        while(current_b->data != best.data)
+        {
+            if(best.index < (stack_b->size / 2))
+            {
+                if(best.nmb_inst > best.nmb_inst_b)
+                {
+                    while(best.nmb_inst_b--)
+                        ft_rr(stack_a,stack_b);
+                    int j = best.nmb_inst - best.nmb_inst_b;
+                    while (j--)
+                        ft_ra(stack_a);
+                    ft_pa(stack_a, stack_b);
+                }
+                else if (best.nmb_inst < best.nmb_inst_b)
+                {
+                    while(best.nmb_inst--)
+                        ft_rr(stack_a,stack_b);
+                    int j = best.nmb_inst_b - best.nmb_inst;
+                    while (j--)
+                        ft_rb(stack_b);
+                    ft_pa(stack_a, stack_b);
+                }
+                else if (best.nmb_inst == best.nmb_inst_b)
+                {
+                    while(best.nmb_inst--)
+                        ft_rr(stack_a,stack_b);
+                    ft_pa(stack_a, stack_b);
+                }
+            }
+            else
+            {
+                if(best.nmb_inst > best.nmb_inst_b)
+                {
+                    int i = my_abs(best.nmb_inst);
+                    while(i--)
+                        ft_rrr(stack_a,stack_b);
+                    int j = my_abs(best.nmb_inst) - my_abs(best.nmb_inst_b);
+                    while (j--)
+                        ft_rra(stack_a);
+                    ft_pa(stack_a, stack_b);
+                }
+                else if (best.nmb_inst < best.nmb_inst_b)
+                {
+                    int i = my_abs(best.nmb_inst_b);
+                    while(i--)
+                        ft_rrr(stack_a,stack_b);
+                    int j = my_abs(best.nmb_inst_b) - my_abs(best.nmb_inst);
+                    while (j--)
+                        ft_rrb(stack_a);
+                    ft_pa(stack_a, stack_b);
+                }
+                else if (best.nmb_inst == best.nmb_inst_b)
+                {
+                    int i = my_abs(best.nmb_inst);
+                    while(i--)
+                        ft_rr(stack_a,stack_b);
+                    ft_pa(stack_a, stack_b);
+                }
+            }
+            current_b = stack_b->head;
+        }
+    }
+    else
+    {
+        while(current_b->data != best.data)
+        {
+            if(best.index < (stack_b->size / 2))
+                ft_rb(stack_b);
+            else
+                ft_rrb(stack_b);
+            current_b = stack_b->head;
+        }
+        while(stack_b->size != 0)
+        {
+            if(best.nmb_inst >= 0)
+            {
+                while(best.nmb_inst--)
+                    ft_ra(stack_a);
+                ft_pa(stack_a, stack_b);
+            }
+            else if (best.nmb_inst < 0)
+            {
+                int j = my_abs(best.nmb_inst);
+                while (j--)
+                    ft_rra(stack_a);
+                ft_pa(stack_a, stack_b);
+            }
+            if(stack_b->size == 0)
+                break ;
+            ft_first_mv_sb(stack_a,stack_b, &best);
+            while(current_b->data != best.data)
+            {
+                if (best.index < (stack_b->size / 2))
+                    ft_rb(stack_b);
+                else
+                    ft_rrb(stack_b);
+                current_b = stack_b->head;
+            }
+        }
+    }
+    // ft_printlist(stack_b);
+}
+
+
+
+// NB_LIST := 1931 1135 171 1810 2834 3355 3162 2878 3895 1631
+// execute: all
+// 	@./push_swap ${NB_LIST}
+// 	@./push_swap ${NB_LIST} | ./checker_Mac ${NB_LIST}
+// 	@./push_swap ${NB_LIST} | wc -l
+
+
+// void ft_push_a(t_stack *stack_a,t_stack *stack_b)
+// {
+//     t_best_mv best; 
+//     t_stack_node *current_b;
+//     current_b = stack_b->head;
+
+//     ft_first_mv_sb(stack_a,stack_b, &best);
+    
+//     if ((best.nmb_inst > 0 && best.nmb_inst_b > 0) || (best.nmb_inst < 0 && best.nmb_inst_b < 0))
+//     {
+//         while(current_b->data != best.data)
+//         {
+//             if(best.index < (stack_b->size / 2))
+//             {
+//                 if(best.nmb_inst > best.nmb_inst_b)
+//                 {
+//                     while(best.nmb_inst_b--)
+//                         ft_rr(stack_a,stack_b);
+//                     int j = best.nmb_inst - best.nmb_inst_b;
+//                     while (j--)
+//                         ft_ra(stack_a);
+//                     ft_pa(stack_a, stack_b);
+//                 }
+//                 else if (best.nmb_inst < best.nmb_inst_b)
+//                 {
+//                     while(best.nmb_inst--)
+//                         ft_rr(stack_a,stack_b);
+//                     int j = best.nmb_inst_b - best.nmb_inst;
+//                     while (j--)
+//                         ft_rb(stack_b);
+//                     ft_pa(stack_a, stack_b);
+//                 }
+//                 else if (best.nmb_inst == best.nmb_inst_b)
+//                 {
+//                     while(best.nmb_inst--)
+//                         ft_rr(stack_a,stack_b);
+//                     ft_pa(stack_a, stack_b);
+//                 }
+//             }
+//             else
+//             {
+//                 if(best.nmb_inst > best.nmb_inst_b)
+//                 {
+//                     int i = my_abs(best.nmb_inst);
+//                     while(i--)
+//                         ft_rrr(stack_a,stack_b);
+//                     int j = my_abs(best.nmb_inst) - my_abs(best.nmb_inst_b);
+//                     while (j--)
+//                         ft_rra(stack_a);
+//                     ft_pa(stack_a, stack_b);
+//                 }
+//                 else if (best.nmb_inst < best.nmb_inst_b)
+//                 {
+//                     int i = my_abs(best.nmb_inst_b);
+//                     while(i--)
+//                         ft_rrr(stack_a,stack_b);
+//                     int j = my_abs(best.nmb_inst_b) - my_abs(best.nmb_inst);
+//                     while (j--)
+//                         ft_rrb(stack_a);
+//                     ft_pa(stack_a, stack_b);
+//                 }
+//                 else if (best.nmb_inst == best.nmb_inst_b)
+//                 {
+//                     int i = my_abs(best.nmb_inst);
+//                     while(i--)
+//                         ft_rr(stack_a,stack_b);
+//                     ft_pa(stack_a, stack_b);
+//                 }
+//             }
+//             current_b = stack_b->head;
+//         }
+//     }
+//     // ft_printlist(stack_b);
+// }
+
+void ft_is_betwen_head_tail(t_stack_node *stack_b,t_stack *stack_a)
+{
+    t_stack_node *current_head_a;
+    t_stack_node *current_tail_a;
+
+    current_head_a = stack_a->head;
+    current_tail_a = stack_a->tail;
+    if (stack_b->data < current_head_a->data && stack_b->data > current_tail_a->data)
+    {
+        stack_b->tmp[0] = current_head_a->nmbr_of_instr;
+        stack_b->tmp[1] = stack_b->nmbr_of_instr;
+    }
+}
+void ft_best_element_in_b(t_stack *stack_a,t_stack *stack_b)
+{
+    ft_instructions_number(stack_a);
+    ft_instructions_number(stack_b);
+
+    t_stack_node *current_head_a;
+    t_stack_node *current_next_a;
+
+    t_stack_node *current_tail_a;
+    t_stack_node *current_prev_a;
+    
+    t_stack_node * current_b;
+    current_b = stack_b->head;
+    while (current_b)
+    {
+        ft_is_betwen_head_tail(current_b,stack_a);
+        int i;
+        i = 0;
+        current_head_a = stack_a->head;
+        while(current_head_a && ++i < (stack_a->size / 2))
+        {
+            current_next_a = current_head_a->next;
+            while (current_next_a && i < (stack_a->size / 2))
+            {
+                if (current_b->data > current_head_a->data && current_b->data < current_next_a->data)
+                {
+                    current_b->tmp[0] = current_head_a->next->nmbr_of_instr;
+                    current_b->tmp[1] = current_b->nmbr_of_instr;
+                }
+                else if (current_b->data >= ft_max_data(stack_a) && current_b->nmbr_of_instr >= 0)
+                {
+                    current_b->tmp[0] = ft_max_data_nbr_istr(stack_a) + 1;
+                    current_b->tmp[1] = current_b->nmbr_of_instr;
+                }
+                current_next_a = current_next_a->next;
+                break;
+            }
+            current_head_a = current_head_a->next;
+        }
+        int j;
+        j = stack_a->size;
+        current_tail_a = stack_a->tail;
+        while(current_tail_a && --j > (stack_a->size / 2))
+        {
+            current_prev_a = current_tail_a->prev;
+            while (current_prev_a && j > (stack_a->size / 2))
+            {
+                if (current_b->data > current_prev_a->data && current_b->data < current_tail_a->data)
+                {
+                    // printf("curentdata : %d|\n",current_b->data);
+                    current_b->tmp[0] = current_prev_a->nmbr_of_instr;
+                    current_b->tmp[1] = current_b->nmbr_of_instr;
+                }
+                else if (current_b->data >= ft_max_data(stack_a) && current_b->nmbr_of_instr < 0)
+                {
+                    // printf("curentdata: %d|\n\n",current_b->data);
+                    // printf("max_data : %d|\n",ft_max_data(stack_a));
+                    // printf("max_data_instr : %d|\n\n",ft_max_data_nbr_istr(stack_a));
+                    current_b->tmp[0] = ft_max_data_nbr_istr(stack_a) + 1;
+                    // printf("curren_b_tmp[0]: | %d\n", current_b->tmp[0]);
+                    current_b->tmp[1] = current_b->nmbr_of_instr;
+                    // printf("curren_b_tmp[1]: | %d\n\n", current_b->tmp[1]);
+                }
+                current_prev_a = current_prev_a->prev;
+                break;
+            }
+            current_tail_a = current_tail_a->prev;
+        }
+        current_b = current_b->next;
+    }
+}
+
+
+// int ft_min_data(t_stack *stack, t_stack_node **min_node)
+// {
+//     t_stack_node	*tmp;
+//     int				i;
+//     int				index;
+
+//     *min_node = stack->head;
+//     tmp = stack->head;
+//     i = 0;
+//     while (tmp)
+//     {
+//         if (tmp->data < (*min_node)->data)
+// 		{
+//             *min_node = tmp;
+// 			index = i;
+// 		}
+//         tmp = tmp->next;
+// 		i++;
+//     }
+//     return(index);
+// }
+
+// void ft_put_min_in_top(t_stack *stack)
+// {
+//     t_stack_node *min_node;
+// 	int			min_index;
+
+//     min_index = ft_min_data(stack, &min_node);
+//     if (min_index <= stack->size / 2)
+// 	{
+// 		while (stack->head != min_node)
+// 			ft_ra(stack);
+// 	}
+// 	else if (min_index > stack->size / 2)
+// 	{
+// 		while (stack->head != min_node)
+// 			ft_rra(stack);
+// 	}
+// }
+
+
+
+ft_instructions_number(stack_a);
+    ft_instructions_number(stack_b);
+
+    t_stack_node *current_head_a;
+    t_stack_node *current_next_a;
+
+    t_stack_node *current_h;
+    current_h = stack_a->head;
+
+    t_stack_node *current_tail_a;
+    current_tail_a = stack_a->tail;
+
+    t_stack_node * current_b;
+    current_b = stack_b->head;
+    while (current_b)
+    {
+        int i;
+        i = 0;
+        current_head_a = stack_a->head;
+        while(current_head_a)
+        {
+            current_next_a = current_head_a->next;
+            while (current_next_a)
+            {
+                if (current_b->data < current_h->data && current_b->data > current_tail_a->data)
+                {
+                    current_b->tmp[0] = current_h->nmbr_of_instr;
+                    current_b->tmp[1] = current_b->nmbr_of_instr;
+                }
+                else if (current_b->data > current_head_a->data && current_b->data < current_next_a->data)
+                {
+                    current_b->tmp[0] = current_head_a->next->nmbr_of_instr;
+                    current_b->tmp[1] = current_b->nmbr_of_instr;
+                }
+                else if (current_b->data > ft_max_data(stack_a))
+                {
+                    current_b->tmp[0] = ft_max_data_nbr_istr(stack_a);
+                    current_b->tmp[1] = current_b->nmbr_of_instr;
+                }
+                else if (current_b->data < ft_min_data_a(stack_a))
+                {
+                    current_b->tmp[0] = ft_min_data_nbr_istr(stack_a);
+                    current_b->tmp[1] = current_b->nmbr_of_instr;
+                }
+                current_next_a = current_next_a->next;
+                break;
+            }
+            current_head_a = current_head_a->next;
+        }
+        current_b = current_b->next;
+    }

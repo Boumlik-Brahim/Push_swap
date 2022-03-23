@@ -51,6 +51,7 @@ typedef struct s_best_mv
     int data;
     int index;
     int nmb_inst;
+    int nmb_inst_b;
 }   t_best_mv;
 
 void ft_sa(t_stack *sa);
@@ -71,12 +72,10 @@ void ft_init_node(t_stack_node *node, int data);
 void ft_push(t_stack *stack, int data);
 void ft_printlist(t_stack  *node);
 
-size_t ft_stacksize(t_stack_node *node);
-void ft_swap(int *a, int *b);
-
 void ft_index(t_stack *stack_a);
 void ft_instructions_number(t_stack *stack_a);
 int ft_min_data(t_stack *stack);
+// int ft_min_data(t_stack *stack, t_stack_node **min_node);
 void ft_put_min_in_top(t_stack *stack);
 void ft_index_lenght(t_stack *stack_a);
 void ft_LIS(t_stack *stack_a);

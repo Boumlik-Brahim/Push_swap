@@ -62,6 +62,7 @@ int ft_min_data(t_stack *stack)
     return(min_data);
 }
 
+
 void ft_put_min_in_top(t_stack *stack)
 {
     t_stack_node *current;
@@ -73,25 +74,23 @@ void ft_put_min_in_top(t_stack *stack)
     {
         if (current->index < (stack->size / 2))
         {
-            if (current->data <= min_data)
+            if (current->data == min_data)
             {
                 int i;
                 i = 0;
                 while(i++ < current->nmbr_of_instr)
                     ft_ra(stack);
-                ft_index(stack);
                 ft_instructions_number(stack);
             }
         }
         else if (current->index > (stack->size / 2))
         {
-            if (current->data <= min_data)
+            if (current->data == min_data)
             {
                 int j;
                 j = 0;
-                while(j++ < current->nmbr_of_instr)
+                while(j++ < my_abs(current->nmbr_of_instr))
                     ft_rra(stack);
-                ft_index(stack);
                 ft_instructions_number(stack);
             }
         }
@@ -137,12 +136,13 @@ void ft_index_lenght(t_stack *stack_a)
 
 void ft_LIS(t_stack *stack_a)
 {
+	int i;
+	i = 0;
     t_stack_node  *current;
     t_stack_node  *lis;
     t_stack_node  *nxt;
-
     current = stack_a->head;
-    while (current)
+    while (i++ < stack_a->size / 2)
     {
         nxt = stack_a->head->next;
         while (nxt)
@@ -153,8 +153,9 @@ void ft_LIS(t_stack *stack_a)
         }
         current = current->next;
     }
+	i = stack_a->size;
     current = stack_a->tail;
-    while (current)
+    while (i-- >= stack_a->size / 2)
     {
         if (current->lenth == lis->lenth)
             current->chk = 1;
@@ -185,7 +186,7 @@ int ft_first_mv(t_stack *stack_a)
     i = -1;
     while (++i < stack_a->size)
     {
-        if (tmp_node->chk == 0 && my_abs(tmp_node->nmbr_of_instr) < my_abs(node_instr))
+        if (tmp_node->chk == 0 && my_abs(tmp_node->nmbr_of_instr) <= my_abs(node_instr))
             node_instr = tmp_node->nmbr_of_instr;
         tmp_node = tmp_node->next;
     }

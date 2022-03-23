@@ -86,26 +86,4 @@ void ft_printlist(t_stack  *node)
         node->head = node->head->next;
     }
 }
-
-size_t ft_stacksize(t_stack_node *node)
-{
-	size_t	i;
-
-	i = 0;
-	while (node != NULL)
-	{
-		node = node->next;
-		i++;
-	}
-	return (i);
-}
-
-void	ft_swap(int *a, int *b)
-{
-	int	tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
 /*--------------------------------------utils------------------------------------------*/
