@@ -6,7 +6,7 @@
 /*   By: bbrahim <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 18:43:53 by bbrahim           #+#    #+#             */
-/*   Updated: 2021/11/22 18:44:03 by bbrahim          ###   ########.fr       */
+/*   Updated: 2022/03/30 21:40:28 by bbrahim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef LIBFT_H
@@ -14,6 +14,9 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+
+# define NC "\033[31;0m"
+# define RED "\033[31;0m\033[0;31;1m"
 
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

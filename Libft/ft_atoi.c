@@ -6,7 +6,7 @@
 /*   By: bbrahim <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/04 09:40:16 by bbrahim           #+#    #+#             */
-/*   Updated: 2021/11/21 10:10:45 by bbrahim          ###   ########.fr       */
+/*   Updated: 2022/03/30 21:18:58 by bbrahim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
@@ -24,9 +24,9 @@ static int	ft_is_space(char c)
 
 int	ft_atoi(const char *str)
 {
-	int		res;
-	int		sign;
-	size_t	i;
+	long long		res;
+	int				sign;
+	size_t			i;
 
 	res = 0;
 	i = 0;
@@ -43,6 +43,8 @@ int	ft_atoi(const char *str)
 	{
 		res = res * 10 + str[i] - '0';
 		i++;
+		if ((res * sign) < -2147483648 || (res * sign) > 2147483647)
+			return (write(2, RED"ERROR\n"NC, 29), exit(-1), 0);
 	}
 	return (res * sign);
 }

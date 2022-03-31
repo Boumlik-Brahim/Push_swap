@@ -26,7 +26,7 @@ $(NAME):$(OBJ)
 bonus: $(OBJ_B)
 	$(AR) $(NAME) $?
 
-.c.o:
+.c.o: libft.h
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
