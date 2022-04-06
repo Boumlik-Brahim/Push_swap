@@ -6,7 +6,7 @@
 /*   By: bbrahim <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 18:45:12 by bbrahim           #+#    #+#             */
-/*   Updated: 2022/03/30 21:50:56 by bbrahim          ###   ########.fr       */
+/*   Updated: 2022/04/05 14:25:30 by bbrahim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,24 @@ void	ft_free_stack_a_b(t_stack_b *stack_a)
 		free(root);
 	}
 	stack_a->head = NULL;
+}
+
+void	ft_free_stack_b_b(t_stack_b *stack_b)
+{
+	t_stack_node_b	*root;
+	t_stack_node_b	*ptr;
+
+	if (stack_b == NULL)
+		return ;
+	root = NULL;
+	ptr = stack_b->head;
+	if (!stack_b->head)
+		stack_b->head = NULL;
+	while (ptr != NULL)
+	{
+		root = ptr;
+		ptr = ptr->next;
+		free(root);
+	}
+	stack_b->head = NULL;
 }

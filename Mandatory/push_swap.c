@@ -12,6 +12,19 @@
 
 #include "push_swap.h"
 
+static void	free_data(char **ptr)
+{
+	int	i;
+
+	i = 0;
+	while (ptr[i] != NULL)
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
+}
+
 static void	ft_sub_sort(t_stack *stack_a, t_stack *stack_b, t_stack_node *bstmv)
 {
 	if (stack_b->size != 0)
@@ -74,8 +87,6 @@ int	main(int ac, char **av)
 	}
 	a = 0;
 	ft_sort(&stack_a, &stack_b, a);
-	for (int i = 0 ; data[i]; i++)
-		free(data[i]);
-	free(data);
+	free_data(data);
 	return (0);
 }

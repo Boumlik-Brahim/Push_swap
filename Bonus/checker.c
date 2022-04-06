@@ -114,5 +114,8 @@ int	main(int ac, char **av)
 	}
 	ft_check_dup_b(&stack_a);
 	ft_get_inst(&stack_a, &stack_b);
+	ft_free_stack_a_b(&stack_a);
+	ft_free_stack_b_b(&stack_b);
+	free_data(data);
 	return (0);
 }

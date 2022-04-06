@@ -6,7 +6,7 @@
 /*   By: bbrahim <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/30 18:46:46 by bbrahim           #+#    #+#             */
-/*   Updated: 2022/03/30 21:45:13 by bbrahim          ###   ########.fr       */
+/*   Updated: 2022/04/05 14:25:11 by bbrahim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,17 @@ void	ft_check_dup_b(t_stack_b *stack_a)
 		}
 		current = current->next;
 	}
+}
+
+void	free_data(char **ptr)
+{
+	int	i;
+
+	i = 0;
+	while (ptr[i] != NULL)
+	{
+		free(ptr[i]);
+		i++;
+	}
+	free(ptr);
 }

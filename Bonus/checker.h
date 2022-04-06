@@ -56,10 +56,12 @@ void	ft_empty_arg(int ac, char **av);
 void	ft_check_integers(char **str);
 void	ft_check_dup_b(t_stack_b *stack_a);
 int		ft_check_is_sorted(t_stack_b *stack_a);
+void	free_data(char **ptr);
 void	ft_init_node_b(t_stack_node_b *node, int data);
 char	**ft_join_args(int i, int ac, char **av);
 void	ft_push_b(t_stack_b *stack, int data);
 void	ft_free_stack_a_b(t_stack_b *stack_a);
+void	ft_free_stack_b_b(t_stack_b *stack_b);
 char	*get_next_line(int fd);
 void	ft_check_inst(char *instruction, t_stack_b *stack_a,
 			t_stack_b *stack_b);
